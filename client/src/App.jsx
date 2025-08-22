@@ -14,13 +14,24 @@ function App() {
   return (
     <div>
       <h2>Investment Portfolio</h2>
-      <ul>
-        {stocks.map((s) => (
-          <li key={s._id}>
-            {s.symbol}: INR{s.price}
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Price (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stocks.map((stock) => (
+            <tr key={stock._id}>
+              <td>{stock.symbol}</td>
+              <td>{stock.name}</td>
+              <td>{stock.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
