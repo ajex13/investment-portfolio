@@ -13,6 +13,8 @@ $ mongod
 
 $ cd server/
 
+$ npm run seed
+
 $ npm start
 ```
 2. Frontend:
