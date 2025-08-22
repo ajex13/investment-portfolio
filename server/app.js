@@ -35,7 +35,7 @@ app.use("/api/stocks", StockRoutes);
 
 setInterval(() => {
   stockEchange(io);
-}, 5000);
+}, 1000);
 
 server.listen(port, () => {
   console.log(`listening on port ${port}`);

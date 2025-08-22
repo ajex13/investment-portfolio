@@ -52,11 +52,9 @@ function App() {
               <td
                 style={{
                   color:
-                    stock.price > stock.boughtAtPrice
+                    stock.price >= stock.boughtAtPrice
                       ? "green"
-                      : stock.price < stock.boughtAtPrice
-                      ? "red"
-                      : "black",
+                      : "red"
                 }}
               >
                 {stock.price}
