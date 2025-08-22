@@ -1,6 +1,6 @@
 import Stock from "./models/stock.js";
 
-async function stockEchange() {
+async function stockEchange(io) {
   const stocks = await Stock.find();
   for (let stock of stocks) {
     const price = stock.price;
@@ -14,6 +14,8 @@ async function stockEchange() {
     stock.price = newPrice;
 
     await stock.save();
+
+    io.emit("stock_price_update", { symbol: stock.symbol, price: stock.price });
   }
 }
 

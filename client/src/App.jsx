@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import './App.css';
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8880");
 
 function App() {
   const [stocks, setStocks] = useState([]);
@@ -9,17 +13,34 @@ function App() {
       setStocks(res.data);
     });
 
+    socket.on("stock_price_update", (update) => {
+      setStocks((prev) =>
+        prev.map((stock) => {
+          if (stock.symbol === update.symbol) {
+           return { ...stock, price: update.price}
+          } 
+          
+          return stock;
+        })
+      );
+    });
+
+    return () => {
+      socket.off("stock_price_update");
+    };
+
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <h2>Investment Portfolio</h2>
-      <table>
+      <table className="portfolio-table">
         <thead>
           <tr>
             <th>Symbol</th>
             <th>Name</th>
-            <th>Price (₹)</th>
+            <th>Bought At Price (₹)</th>
+            <th>Current Price (₹)</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +48,19 @@ function App() {
             <tr key={stock._id}>
               <td>{stock.symbol}</td>
               <td>{stock.name}</td>
-              <td>{stock.price}</td>
+              <td>{stock.boughtAtPrice}</td>
+              <td
+                style={{
+                  color:
+                    stock.price > stock.boughtAtPrice
+                      ? "green"
+                      : stock.price < stock.boughtAtPrice
+                      ? "red"
+                      : "black",
+                }}
+              >
+                {stock.price}
+              </td>
             </tr>
           ))}
         </tbody>

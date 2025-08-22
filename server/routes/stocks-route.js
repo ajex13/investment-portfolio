@@ -14,4 +14,5 @@ StockRoutes.post("/", async (req, res) => {
   res.json(stock);
 });
 
+
 export default StockRoutes;
